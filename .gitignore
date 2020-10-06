@@ -1,0 +1,7 @@
+#Docker
+.idea
+db_data
+logs
+*.tar.gz
+*.sql
+.source

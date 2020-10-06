@@ -1,0 +1,40 @@
+version: '3.3'
+
+services:
+  php:
+    build: ./php
+    volumes:
+      - ./source:/var/www/html
+      - ./php/php.ini:/usr/local/etc/php/php.ini
+      - ./php/www.conf:/usr/local/etc/php-fpm.d/www.conf
+      - ./scripts/set_permissions.sh:/set_permissions.sh
+    depends_on:
+      - db
+
+  server:
+    image: nginx:latest
+    env_file:
+      - ./nginx/docker.env
+    ports: 
+      - "80:80"
+    volumes:
+      - ./source:/var/www/html
+      - ./logs:/var/site-logs
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./nginx/log.conf:/etc/nginx/log.conf
+      - ./nginx/magento.conf:/etc/nginx/site-configuration/magento.conf
+    depends_on:
+      - php
+
+  db:
+    image: mysql:5.7
+    env_file:
+      - ./mysql/docker.env
+    volumes:
+      - ./db_data:/var/lib/mysql
+      - ./mysql/mysql.cnf:/etc/mysql/conf.d/mysql.cnf
+      - ./mysql/log:/var/log/mysql
+      - ./pl.sql:/pl.sql
+    ports: ["33014:3306"]
+
