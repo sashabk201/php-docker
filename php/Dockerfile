@@ -49,6 +49,10 @@ RUN docker-php-ext-enable xdebug
 RUN docker-php-ext-enable xdebug
 EXPOSE 9000
 
+RUN apt-get -y install nodejs
+RUN apt-get -y install npm
+RUN mkdir /.npm && chmod 777 /.npm
+
 RUN echo "date.timezone = Europe/London" > /usr/local/etc/php/conf.d/timezone.ini
 
 USER magento
