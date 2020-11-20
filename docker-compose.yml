@@ -34,6 +34,7 @@ services:
     volumes:
       - ./db_data:/var/lib/mysql
       - ./mysql/mysql.cnf:/etc/mysql/conf.d/mysql.cnf
+      - ./mysql/backup:/var/backup
       - ./mysql/log:/var/log/mysql
       - ./pl.sql:/pl.sql
     ports: ["33014:3306"]
