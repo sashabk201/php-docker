@@ -36,6 +36,13 @@ services:
       - ./mysql/mysql.cnf:/etc/mysql/conf.d/mysql.cnf
       - ./mysql/backup:/var/backup
       - ./mysql/log:/var/log/mysql
-      - ./pl.sql:/pl.sql
     ports: ["33014:3306"]
 
+  elasticsearch:
+    image: markoshust/magento-elasticsearch:7.7.1-0
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    environment:
+      - "discovery.type=single-node"
+      - "ES_JAVA_OPTS=-Xms1g -Xmx1g"
