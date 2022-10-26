@@ -40,15 +40,14 @@ RUN docker-php-ext-install \
 
 RUN docker-php-ext-enable bcmath
 
-RUN yes | pecl install xdebug-2.9.1 \
-     && echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)" > /usr/local/etc/php/conf.d/xdebug.ini \
-     && echo "xdebug.remote_connect_back = 1" >> /usr/local/etc/php/conf.d/xdebug.ini \
-     && echo "xdebug.remote_enable = 1" >> /usr/local/etc/php/conf.d/xdebug.ini \
-     && echo "xdebug.remote_port = 9001" >> /usr/local/etc/php/conf.d/xdebug.ini
+RUN yes | pecl install xdebug \
+     && docker-php-ext-enable xdebug \
+     && echo "xdebug.mode=debug" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+     && echo "xdebug.client_host = host.docker.internal" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+     && echo "xdebug.client_port=9001" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini 
+    
 RUN echo "date.timezone = Europe/London" > /usr/local/etc/php/conf.d/timezone.ini
-RUN docker-php-ext-enable xdebug
 
-RUN docker-php-ext-enable xdebug
 EXPOSE 9000
 
 RUN echo "date.timezone = Europe/London" > /usr/local/etc/php/conf.d/timezone.ini

@@ -28,7 +28,7 @@ services:
       - php
 
   db:
-    image: mysql:5.7
+    image: mariadb:10.4
     env_file:
       - ./mysql/docker.env
     volumes:
